@@ -1,3 +1,14 @@
+#***IN PROGRESS***
+
+
+Hecho: 
+- Func que consigue todos los Panerais a la venta en WF.
+- Func que recoge la info de cada reloj a la venta y guarda su imagen.
+- Show them how they use it.
+- Tell them any other relevant details.
+
+
+
 # Data Project README file
 
 The README file describes the essence of the project playing the most important role. Most visitors will simply scroll down about twice on the README and leave if they are not interested. So, the README file should provide the reason **why** to checkout your project!!!). 
