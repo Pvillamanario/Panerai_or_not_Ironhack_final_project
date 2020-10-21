@@ -24,14 +24,31 @@ import matplotlib.pyplot as plt
 #     arguments = argument_parser()
 #     main(arguments)
 
-IMG_to_predict = '../data/imgs/test_watches/panerai/Luminor1713.jpeg'
+model_pan_or_not_path = './models/model_Inception_pan_or_not.h5'
+VGG19_feat_extractor_path = './models/VGG19_ft_ext.h5'
+feat_extractor_path = './models/feature_extractor.h5'
+
+IMG_to_predict = './data/imgs/test_watches/not_panerai/Not_Panerai_Cartier_39.jpeg'
+# IMG_to_predict = './data/imgs/test_watches/panerai/Luminor1713.jpeg'
+# IMG_to_predict = './data/imgs/test_watches/panerai/Radiomir580.jpeg'
+# IMG_to_predict = './data/imgs/test_watches/panerai/Submersible_C24_370.jpeg'
 
 def main():
 
-    panerai_or_no_model = pon.model_pan_or_not_load()
-    model, feat_extractor = sg.load_feature_model()
+    model_pan_or_not = pon.model_pan_or_not_load(model_pan_or_not_path)
+    model_VGG19 = sg.load_feature_model(VGG19_feat_extractor_path)
     img, x = sg.load_image(IMG_to_predict)
     plt.imshow(img)
+    plt.show()
+    is_panerai = pon.pan_or_not_prediction(IMG_to_predict, model_pan_or_not)
+
+    if is_panerai != 'Panerai':
+        print("Sorry, it doesn't seem to be a Panerai watch")
+
+    else:
+        print('It seems to be a Panerai watch!')
+        sg.make_suggestion(model_VGG19, IMG_to_predict)
+
 
 if __name__ == '__main__':
     main()
