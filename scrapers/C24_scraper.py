@@ -8,7 +8,7 @@ import os # imgs directory creation
 import html5lib
 
 
-def c24_imgs_scraper(model):
+def c24_imgs_scraper(brand, model):
 
     """Scraps pictures from chrono24.com to improve model training.
         Accepts as argument a brand or a model"""
@@ -19,7 +19,7 @@ def c24_imgs_scraper(model):
     pic_links = []
     count = 0
     for i in range(1, 29):
-        url = f'https://www.chrono24.es/panerai/index-{i}.htm?query=radiomir'
+        url = f'https://www.chrono24.es/{brand}/index-{i}.htm?query={model}'
         html = requests.get(url).content
         soup = bs(html, 'lxml')
         soup = soup.find_all('div', {'class': 'article-image-container'})

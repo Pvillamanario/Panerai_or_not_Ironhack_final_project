@@ -4,22 +4,24 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 
 
-base_learning_rate = 0.0001
-model_pan_or_not_path = '../models/model_Inception_pan_or_not.h5'
+
 
 # image folder
-img_to_predict_path = '../test_watches/panerai'
+img_to_predict_path = '../test'
 
 
-def model_pan_or_not_load(model_path):
+def model_pan_or_not_load():
 
-    model_pan_or_not = tf.keras.models.load_model(model_path)
+    base_learning_rate = 0.0001
 
-    model_pan_or_not.compile(optimizer=tf.keras.optimizers.Adam(lr=base_learning_rate),
-                              loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
-                              metrics=['accuracy'])
 
-    print('model_loaded')
+    model_pan_or_not = tf.keras.models.load_model('../models/model_Inception_pan_or_not.h5')
+
+    # model_pan_or_not.compile(optimizer=tf.keras.optimizers.Adam(lr=base_learning_rate),
+    #                           loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+    #                           metrics=['accuracy'])
+
+    print('panerai_model_loaded')
     return model_pan_or_not
 
 
@@ -48,5 +50,6 @@ def model_pan_or_not_prediction(img_path):
     return result
 
 
-model_pan_or_not = model_pan_or_not_load(model_pan_or_not_path)
-model_pan_or_not_prediction(img_to_predict_path)
+# model_pan_or_not = model_pan_or_not_load(model_pan_or_not_path)
+# prediction = model_pan_or_not_prediction(img_to_predict_path)
+# print(prediction)
