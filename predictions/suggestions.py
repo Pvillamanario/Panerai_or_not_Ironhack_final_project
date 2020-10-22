@@ -2,7 +2,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.applications.imagenet_utils import decode_predictions, preprocess_input
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 from tensorflow.keras.models import Model
 import numpy as np
 from sklearn.decomposition import PCA
@@ -13,6 +13,7 @@ import pickle
 IMG_to_predict = '../data/imgs/test_watches/panerai/Luminor1713.jpeg'
 closest_watches = []
 
+
 def load_image(path):
     img = image.load_img(path, target_size=(224,224)) # target_size=model_VGG19.input_shape[1:3]
     x = image.img_to_array(img)
@@ -22,7 +23,7 @@ def load_image(path):
 
 
 def get_closest_images(query_image_idx, num_results=5):
-    distances = [ distance.cosine(pca_features[query_image_idx], feat) for feat in pca_features ]
+    distances = [distance.cosine(pca_features[query_image_idx], feat) for feat in pca_features]
     idx_closest = sorted(range(len(distances)), key=lambda k: distances[k])[1:num_results+1]
 
     return idx_closest
@@ -36,7 +37,7 @@ def get_concatenated_images(indexes, thumb_height):
 
     for idx in indexes:
         closest_watches.append(images[idx])
-        img = image.load_img('.' + images[idx][2:]) # por el tema de las rutas relativas... desde el main es con ./
+        img = image.load_img('.' + images[idx][2:])  # por el tema de las rutas relativas... desde el main es con ./
         img = img.resize((int(img.width * thumb_height / img.height), thumb_height))
         thumbs.append(img)
     concat_image = np.concatenate([np.asarray(t) for t in thumbs], axis=1)
@@ -123,5 +124,5 @@ def make_suggestion(model, IMG_to_predict):
     plt.title("result images")
     plt.show()
 
-    print(closest_watches)
+    return closest_watches
 

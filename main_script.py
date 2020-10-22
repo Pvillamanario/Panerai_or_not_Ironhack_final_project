@@ -28,10 +28,11 @@ model_pan_or_not_path = './models/model_Inception_pan_or_not.h5'
 VGG19_feat_extractor_path = './models/VGG19_ft_ext.h5'
 feat_extractor_path = './models/feature_extractor.h5'
 
-IMG_to_predict = './data/imgs/test_watches/not_panerai/Not_Panerai_Cartier_39.jpeg'
-# IMG_to_predict = './data/imgs/test_watches/panerai/Luminor1713.jpeg'
+# IMG_to_predict = './data/imgs/test_watches/not_panerai/Not_Panerai_Cartier_39.jpeg'
+IMG_to_predict = './data/imgs/test_watches/panerai/Luminor1713.jpeg'
 # IMG_to_predict = './data/imgs/test_watches/panerai/Radiomir580.jpeg'
 # IMG_to_predict = './data/imgs/test_watches/panerai/Submersible_C24_370.jpeg'
+
 
 def main():
 
@@ -47,7 +48,9 @@ def main():
 
     else:
         print('It seems to be a Panerai watch!')
-        sg.make_suggestion(model_VGG19, IMG_to_predict)
+        similar_watches = sg.make_suggestion(model_VGG19, IMG_to_predict)
+        print(similar_watches)
+
 
 
 if __name__ == '__main__':
