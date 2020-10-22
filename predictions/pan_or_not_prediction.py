@@ -46,7 +46,7 @@ def pan_or_not_prediction(img_path, model):
     img = image.load_img(img_path, target_size=(180, 180))
     img = image.img_to_array(img)
     img = np.expand_dims(img, axis=0)
-    model.predict(img)
+    # model.predict(img)
 
     classes = model.predict(img, batch_size=1)
 
@@ -58,6 +58,32 @@ def pan_or_not_prediction(img_path, model):
     return result
 
 
-# model_pan_or_not = model_pan_or_not_load(model_pan_or_not_path)
-# prediction = model_pan_or_not_prediction(img_to_predict_path)
+# model_pan_or_not = model_pan_or_not_load('../models/model_Inception_pan_or_not.h5')
+# prediction = pan_or_not_prediction('../data/imgs/test_watches/panerai/Luminor1713.jpeg', model_pan_or_not)
 # print(prediction)
+
+
+
+
+#############################
+
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
+
+def get_model():
+    model_pan_or_not = tf.keras.models.load_model('./models/model_Inception_pan_or_not.h5')
+    print('Model Loaded')
+    return model_pan_or_not
+
+
+def predict(image):
+    loaded_model = get_model()
+    image = load_img(image, target_size=(128,128))
+    image = img_to_array(image)
+    image = image / 255.0
+    image = np.reshape(image, [1, 128, 128, 1])
+
+    classes = loaded_model.predict(image)
+
+    return classes
+
+
