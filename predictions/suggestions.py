@@ -31,17 +31,18 @@ def get_closest_images(query_image_idx, num_results=5):
 
 def get_concatenated_images(indexes, thumb_height):
     thumbs = []
+    closest_watches = []
 
     with open('./data/WF_images.pickle', 'rb') as f:
         images = pickle.load(f)
 
     for idx in indexes:
-        closest_watches.append(images[idx])
+        closest_watches.append(images[idx][1:])
         img = image.load_img('.' + images[idx][2:])  # por el tema de las rutas relativas... desde el main es con ./
         img = img.resize((int(img.width * thumb_height / img.height), thumb_height))
         thumbs.append(img)
     concat_image = np.concatenate([np.asarray(t) for t in thumbs], axis=1)
-    return concat_image
+    return concat_image, closest_watches
 
 
 def load_feature_model(path):
