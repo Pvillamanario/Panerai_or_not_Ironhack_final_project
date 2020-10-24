@@ -1,21 +1,6 @@
-import pandas as pd
-import numpy as np
 import streamlit as st
-import plotly.express as px
-from PIL import Image, ImageOps
-from predictions import pan_or_not_prediction as pon
-from predictions import suggestions as sug
-from predictions import suggestions as sg
+from PIL import Image
 from predictions import functions as fc
-from tensorflow.keras.preprocessing import image
-import io
-from tensorflow.keras.models import Model
-from skimage import transform
-from sklearn.decomposition import PCA
-import matplotlib.pyplot as plt
-from scipy.spatial import distance
-import pickle
-from tensorflow.keras.applications.imagenet_utils import preprocess_input
 import gc
 
 
@@ -29,73 +14,71 @@ feature_list = './data/WF_features.pickle'
 # Panerai
 Panerai = False
 
-try:
-    pic
-except:
 
-    # Streamlit header
-    st.title("Streamlit 101: An in-depth introduction")
-    st.markdown("Welcome to this in-depth introduction to [...].")
-    st.header("Customary quote")
-    st.markdown("> I just love to go home, no matter where I am [...]")
+# Streamlit header
+st.title("Streamlit 101: An in-depth introduction")
+st.markdown("Welcome to this in-depth introduction to [...].")
+st.header("Customary quote")
+st.markdown("> I just love to go home, no matter where I am [...]")
 
-    # Upload image
+# Upload image
 
-    uploaded_file = st.file_uploader("Choose an image...")
+uploaded_file = st.file_uploader("Choose an image...")
 
-    if uploaded_file is not None:
+if uploaded_file is not None:
 
-        image = Image.open(uploaded_file)
-        st.image(image, caption='Uploaded Image', use_column_width=True)
+    image = Image.open(uploaded_file)
+    st.image(image, caption='Uploaded Image', use_column_width=True)
 
-        st.write("")
+    st.write("")
 
-        model_pan = fc.model_pan_load(model_pan_path)
+    model_pan = fc.model_pan_load(model_pan_path)
 
-    # Button and panerai prediction:
+# Button and panerai prediction
 
-        if st.button('predict'):
+    if st.button('predict'):
 
-            print('Panerai model loaded...')
-            result_pan = fc.pan_prediction(uploaded_file, model_pan)
-            del model_pan
-            gc.collect()
-
-            if result_pan >= 0:
-                Panerai = True
-            else:
-                st.write('Does not seem to be a Panerai watch... :/')
-
-    if not Panerai:
-        st.stop()
-        pass
-
-    else:
-        st.write('That seems to be a Panerai!! O_O')
-        st.write("Let's check for some similar watches!")
-
-        # if st.button('Show me!'):
-
-        model = fc.load_feature_model(VGG19_path)
-        print('VGG19 loaded...')
-
-        closest_watches = fc.model_suggestion(uploaded_file, model, image_list, feature_list)
-        del model
+        print('Panerai model loaded...')
+        result_pan = fc.pan_prediction(uploaded_file, model_pan)
+        del model_pan
         gc.collect()
 
-        st.write(closest_watches)
+        if result_pan >= 0:
+            Panerai = True
+        else:
+            st.write('Does not seem to be a Panerai watch... :/')
 
-        ids, pam, models, pic_list = fc.process_watch_list(closest_watches)
+# If isn't a Panerai, stop execution
+if not Panerai:
+    st.stop()
+    pass
 
-        st.image(closest_watches, width=200, caption=models)
-
-
-
-        pic = st.selectbox("Choose one", list(pic_list.keys()), 0)
-        model_choosen = True
-
-        # st.image(pic_list[pic], use_column_width=True, caption=pic_list[pic])
-
-
+# If it's Panerai, find 3 similar watches on sale
 else:
-    st.write('1232')
+    st.write('That seems to be a Panerai!! O_O')
+    st.write("Let's check for some similar watches!")
+
+    # if st.button('Show me!'):
+
+    model = fc.load_feature_model(VGG19_path)
+    print('VGG19 loaded...')
+
+    closest_watches = fc.model_suggestion(uploaded_file, model, image_list, feature_list)
+    del model
+    gc.collect()
+
+    st.write(closest_watches)
+
+    df_watches = fc.process_watch_list_df(closest_watches)
+
+    pic_list = df_watches['pic_path'].tolist()
+    models = df_watches['model'].tolist()
+
+    print(pic_list)
+    print(models)
+
+    st.image(pic_list, width=200, caption=models)
+
+    df_watches.to_csv('./data/selected_watches.csv')
+
+    st.stop()

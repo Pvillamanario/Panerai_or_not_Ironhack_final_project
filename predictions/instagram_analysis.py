@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 from textblob import TextBlob
 
 tag = 'PAM00504'
-url = f'https://www.instagram.com/explore/tags/{tag}/?__a=1'
+instagram_url = f'https://www.instagram.com/explore/tags/{tag}/?__a=1'
 
-data = json.load(urllib2.urlopen(url))
+data = json.load(urllib2.urlopen(instagram_url))
 
 n_post = len(data['graphql']['hashtag']['edge_hashtag_to_media']['edges'])
 
