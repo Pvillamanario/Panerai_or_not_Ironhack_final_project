@@ -1,6 +1,46 @@
+hastags = ['#panerai', '#luminor', '#luminorpanerai', '#luminormarina', '#paneraiwatch', '#PAM00028',
+           '#rolexero', '#davidtoro', '#davidtorowatches', '#paneraiwatches', '#pam00028', '#used', '#klocksnack',
+           '#pam00028', '#pam028', '#pvd', '#panerai', '#firenze', '#firenze', '#limitededition', '#panerailuminor',
+           '#flygskam', '#klocksnack', '#pam00028', '#pam028', '#pvd', '#panerai', '#firenze', '#firenze',
+           '#limitededition', '#panerailuminor', '#monaco', '#hairpin', '#panerai', '#pam425', '#pam028',
+           '#awstraps', '#jbianchi', '#pam00028', '#slc', '#tap501', '#parachute', '#klocksnack',
+           '#pam00028', '#pam028', '#pvd', '#panerai', '#firenze', '#firenze', '#seiko', '#titan',
+           '#panerailuminor', '#sbdb001', '#klocksnack', '#pam00028', '#pam028', '#pvd', '#panerai',
+           '#firenze', '#firenze', '#limitededition', '#panerailuminor', '#klocksnack', '#pam00028',
+           '#pam028', '#pvd', '#panerai', '#jeans', '#hackett', '#edwin', '#paneristi', '#firenze', '#firenze',
+           '#klocksnack', '#pam00028', '#pam028', '#pvd', '#panerai', '#jeans', '#friday13', '#klocksnack',
+           '#pam00028', '#pam028', '#pvd', '#panerai', '#jeans', '#friday13', '#klocksnack', '#pam00028', '#pam028',
+           '#pvd', '#panerai', '#jeans', '#friday13', '#klocksnack', '#pam00028', '#pam028', '#pvd', '#panerai',
+           '#jeans', '#friday13', '#klocksnack', '#panerai', '#dlc', '#firenze', '#paneristi', '#pam028', '#pam00028',
+           '#pvd', '#luminor', '#klocksnack', '#panerai', '#dlc', '#firenze', '#paneristi', '#pam028', '#pam00028',
+           '#pvd', '#luminor', '#klocksnack', '#panerai', '#dlc', '#firenze', '#paneristi', '#pam028', '#pam00028',
+           '#pvd', '#luminor', '#panerai', '#luminor', '#panerailuminor', '#luminorpanerai', '#pam00028',
+           '#specialedition', '#powerreserve', '#watches', '#watchesofinstagram', '#horology', '#edc', '#hkig',
+           '#friday', '#tgif', '#photography', '#panerai', '#panerailuminor', '#luminormaina', '#pvdcoating', '#pam28',
+           '#pam00028', '#sportwatch', '#blackwatch', '#gunmetalgrey', '#swissconnectionmy', '#paneraicentral',
+           '#watchesofinstagram', '#watchfam', '#watchgeek', '#panerai', '#panerailuminor', '#luminormarina',
+           '#pvdcoating', '#pam28', '#pam00028', '#sportwatch', '#blackwatch', '#gunmetalgrey', '#swissconnectionmy',
+           '#watchesofinstagram', '#watchfam', '#watchgeek', '#watchesforsale', '#panerai', '#luminor',
+           '#panerailuminor', '#luminorpanerai', '#pam00028', '#specialedition', '#powerreserve', '#watches',
+           '#watchesofinstagram', '#horology', '#edc', '#hkig', '#wednesday', '#photography', '#PANERAI', '#LUMINOR',
+           '#PAM00028', '#PANERAI', '#LUMINOR', '#PAM00028', '#panerai', '#paneristi', '#luminor', '#PAM00028',
+           '#PAM28', '#radiomir', '#submersible', '#panerailuminor', '#panerairadiomir', '#watchgeek', '#watchnerd',
+           '#chronograph', '#mondani', '#watchfam', '#hodinkee', '#instawatch', '#luxury', '#watchesofinstagram',
+           '#divewatch', '#panerai', '#pam00028', '#paneraiedition', '#lovewatches', '#watch', '#officinepanerai',
+           '#pam00028', '#panerai', '#paneristi', '#pam00028', '#paneristi_sweden', '#watchoftheday', '#luxurywatch',
+           '#klocksnack', '#watch', '#watches', '#watchfam', '#watchgeek', '#wis', '#wus', '#rolex', '#tidssonen',
+           '#8past10', '#wristwatch', '#officinepanerai', '#panerailuminor', '#luminor', '#panerai', '#luminor',
+           '#black', '#rolex', '#hublot', '#omega', '#pam00028', '#panerai', '#pam00028', '#officinepanerai',
+           '#paneristi', '#paneraicollectors', '#paneraicollection', '#specialedition', '#luminorsmarina',
+           '#watchesofinstagram', '#hodinkee', '#hobnaildial', '#luminor', '#pvdwatch', '#pvd', '#pam00028',
+           '#pvd', '#dlc', '#DLC', '#panerai', '#luminor', '#panerailuminor', '#luminorpowerreserve',
+           '#powerreserve', '#officinepanerai', '#luminorpanerai', '#watch', '#paneraidlc', '#paneraipvd',
+           '#paneraiwatch', '#pam00028', '#panerai', '#men', '#menstyle', '#mensfashion', '#luxury', '#pvd',
+           '#watch', '#reloj', '#madrid', '#spain']
+
 import pandas as pd
+import streamlit as st
 
-from predictions import functions as fc
-
-fc.get_instagram_post('PAM00609')
-
+df = pd.DataFrame({'hashtag':hastags, 'times':1})
+top = df.groupby(['hashtag']).agg('count').sort_values('times', ascending=False).nlargest(15, 'times')
+st.bar_chart(top)

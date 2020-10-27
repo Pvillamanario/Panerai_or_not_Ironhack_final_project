@@ -4,7 +4,11 @@ import re
 import pandas as pd
 from datetime import datetime
 import urllib.request
+import os
+import shutil
 
+# Links list path
+df_links_path = '../data/wfinder_panerai_links.csv'
 
 
 def get_links_panerai_on_sale():
@@ -18,7 +22,7 @@ def get_links_panerai_on_sale():
     print('Scrapping Panerai watches on sale at watchfinder.co.uk')
     count = 1
 
-    for page in range(1, 130):
+    for page in range(1, 140):
 
         url = f'https://www.watchfinder.co.uk/all-watches?orderby=BestMatch&pageno={page}'
         html = requests.get(url).content
@@ -36,12 +40,12 @@ def get_links_panerai_on_sale():
         count += 1
 
         print(f'\rScraping web {count} of 130', end="", flush=True)
-        print(f'{len(links)} watches retrieved.')
+
+    print(f'{len(links)} watches retrieved.')
 
     # Saving the link list to csv
     df_links = pd.DataFrame(links)
-
-    df_links.to_csv('../data/wfinder_panerai_links.csv', index=False)
+    df_links.to_csv(df_links_path, index=False)
 
 
 def info_and_imgs_panerai_on_sale():
@@ -61,6 +65,12 @@ def info_and_imgs_panerai_on_sale():
     df_links = pd.read_csv('../data/wfinder_panerai_links.csv')
     home_url = 'https://www.watchfinder.es'
     count = 1
+    print('Link list retrieved.')
+
+    # Deleting old images
+    print('Cleaning old images.')
+    shutil.rmtree('../data/imgs/WF_panerai', ignore_errors=True)
+    os.mkdir('../data/imgs/WF_panerai')
 
     for i in df_links['0']:
 
@@ -135,12 +145,15 @@ def info_and_imgs_panerai_on_sale():
             df_features = df_features.append(watch, ignore_index=True)
 
         except:
-            print('skipping...')
+            print('\nskipping...')
             pass
 
         df_features.to_csv('../data/WF_panerai_features.csv')
 
 
-info_and_imgs_panerai_on_sale()
+# Updating watches on sale, features and images
 
+# get_links_panerai_on_sale()
+# info_and_imgs_panerai_on_sale()
 # print(df_features)
+

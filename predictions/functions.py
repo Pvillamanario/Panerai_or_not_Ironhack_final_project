@@ -26,10 +26,9 @@ import matplotlib.pyplot as plt
 from textblob import TextBlob
 
 
-
 def model_pan_load(path):
-    return tf.keras.models.load_model(path)
     print('Panerai model loaded...')
+    return tf.keras.models.load_model(path)
 
 
 def load_feature_model(path):
@@ -58,32 +57,30 @@ def model_suggestion(uploaded_file, model, image_list, feature_list):
 
     with open(image_list, 'rb') as f:
         images = pickle.load(f)
-    st.write('Checking watches on sale')
+    # st.write('Checking watches on sale')
 
     # Removing decision layer
     feat_extractor = Model(inputs=model.input, outputs=model.get_layer("fc2").output)
 
     with open(feature_list, 'rb') as f:
         features = pickle.load(f)
-    st.write('Looking for similar watches')
+    # st.write('Looking for similar watches')
 
     # Feature PCA reduction
-    features = np.array(features)
-    pca = PCA(n_components=276)
-    pca.fit(features)
-    pca_features = pca.transform(features)
+    pca_features, pca = sug.pca_reduction(features)
 
     # Feature extraction
     new_features = feat_extractor.predict(x)
 
-    # project it into pca space
+    # Project it into pca space
     new_pca_features = pca.transform(new_features)[0]
 
-    # calculate its distance to all the other images pca feature vectors
+    # Calculate its distance to all the other images pca feature vectors
 
     distances = [distance.cosine(new_pca_features, feat) for feat in pca_features]
-    idx_closest = sorted(range(len(distances)), key=lambda k: distances[k])[0:3]  # grab first 3
+    idx_closest = sorted(range(len(distances)), key=lambda k: distances[k])[0:6]  # grab first 3
 
+    # Closest watches paths
     closest_watches = []
 
     for idx in idx_closest:
@@ -149,13 +146,20 @@ def get_instagram_post(tag):
 
     n_post = len(data['graphql']['hashtag']['edge_hashtag_to_media']['edges'])
 
+    # Fetch the comments
     comments = []
 
     for i in range(0, n_post - 1):
         comments.append(
             data['graphql']['hashtag']['edge_hashtag_to_media']['edges'][i]['node']['edge_media_to_caption']['edges'][0]['node']['text'])
 
-    return comments, n_post
+    # Fetch the images:
+    instagram_pics = []
+    for i in range(0, n_post - 1):
+        ins_img = data['graphql']['hashtag']['edge_hashtag_to_media']['edges'][i]['node']['display_url']
+        instagram_pics.append(ins_img)
+
+    return comments, n_post, instagram_pics
 
 
 def get_hastags(comments):
@@ -165,11 +169,11 @@ def get_hastags(comments):
     return hashtags
 
 
-def get_wordcloud(words, path, stopwords):
+def get_wordcloud(words, path):
 
-    # stopwords = STOPWORDS
-    stopwords.update('Panerai', 'panerai', 'the', 'to', 'for', 'all', 'and', 'you', 'with', 'at', 'shop', 'watch', 'my',
-                     'they')
+    stopwords = STOPWORDS
+    # stopwords.update('Panerai', 'panerai', 'the', 'to', 'for', 'all', 'and', 'you', 'with', 'at', 'shop', 'my',
+    #                  'they')
 
     wordcloud = WordCloud(width=1600, height=800,
                           background_color='white',
@@ -200,3 +204,27 @@ def proccess_text(texts):
         token_words += " ".join(tokens) + " "
 
     return token_words
+
+
+def clean_comments(comments):
+    return [' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", i).split()) for i in comments]
+
+
+def hashtag_analysis(hashtags):
+    ht_df = pd.DataFrame({'hashtag': hashtags, 'mentions': 1})
+    top_h = ht_df.groupby(['hashtag']).agg('count').sort_values('mentions', ascending=False).nlargest(20, 'mentions')
+    return top_h
+
+def comments_analysis(clean_comments):
+
+    df_comments = pd.DataFrame(columns=['comment', 'score'])
+
+    for i in clean_comments:
+        analysis = TextBlob(i)
+        score = analysis.sentiment.polarity
+        txt = {'comment': i, 'score': score}
+        df_comments = df_comments.append(txt, ignore_index=True)
+
+    df_comments.sort_values('score', inplace=True)
+
+    return df_comments

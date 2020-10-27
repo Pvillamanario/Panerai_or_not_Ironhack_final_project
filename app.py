@@ -22,7 +22,6 @@ st.header("Customary quote")
 st.markdown("> I just love to go home, no matter where I am [...]")
 
 # Upload image
-
 uploaded_file = st.file_uploader("Choose an image...")
 
 if uploaded_file is not None:
@@ -35,7 +34,6 @@ if uploaded_file is not None:
     model_pan = fc.model_pan_load(model_pan_path)
 
 # Button and panerai prediction
-
     if st.button('predict'):
 
         print('Panerai model loaded...')

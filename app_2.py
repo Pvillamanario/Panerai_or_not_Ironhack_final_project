@@ -18,7 +18,6 @@ import pickle
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 import gc
 import re
-import pandas as pd
 import json
 import urllib.request as urllib2
 from wordcloud import WordCloud, STOPWORDS
@@ -40,6 +39,7 @@ selected_df = pd.read_csv(selected_watches_path)
 # Creates a dic model:pic_path
 pics = selected_df.set_index('model').to_dict()['pic_path']
 
+# Selection box
 pic = st.selectbox("Picture choices", list(pics.keys()), 0)
 st.image(pics[pic], use_column_width=True, caption=pics[pic])
 
@@ -60,11 +60,16 @@ st.table(watch_info)
 
 # Get hashtags to be searched on Instagram
 tag_1, tag_2 = fc.get_tags(features_df, selected_filter)
-# print(tag_1, tag_2)
+print(tag_1, tag_2)
 
-comments, n_post = fc.get_instagram_post(tag_1)
+comments, n_post, instagram_pics = fc.get_instagram_post(tag_1)
+comments2, n_post2, instagram_pics2 = fc.get_instagram_post(tag_2)
+print(n_post + n_post2)
 
-hashtags = fc.get_hastags(comments)
+instagram_pics = list(set(instagram_pics2 + instagram_pics2))
+print(len(instagram_pics))
+
+hashtags = fc.get_hastags(comments) + fc.get_hastags(comments2)
 
 clean_comments = [' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", i).split()) for i in comments]
 clean_hastags = [i[1:] for i in hashtags]
@@ -72,17 +77,11 @@ clean_hastags = [i[1:] for i in hashtags]
 hastags_words = fc.proccess_text(hashtags)
 comment_words = fc.proccess_text(clean_comments)
 
-comments_withput_hashtags = clean_hastags + comment_words.split(' ')
-comments_withput_hashtags = fc.proccess_text(comments_withput_hashtags)
 
-# a = clean_hastags
-# b = comment_words.split(' ')
-# c = set(a + b)
-
-
-print(comments_withput_hashtags, '\n')
+# print(comments_withput_hashtags, '\n')
 
 stopwords = STOPWORDS
+# stopwords.update('Panerai', 'panerai', ' panerai')
 
 # wordcloud_image_hashtag = fc.get_wordcloud(hastags_words, wordcloud_image_hashtag_path, stopwords)
 # st.image(wordcloud_image_hashtag_path, use_column_width=True)
@@ -90,7 +89,9 @@ stopwords = STOPWORDS
 # # stopwords.update(set([i for i in hastags_words]))
 # # print(type(stopwords))
 
-wordcloud_image = fc.get_wordcloud(comments_withput_hashtags, wordcloud_image_path, stopwords)
+wordcloud_image = fc.get_wordcloud(hastags_words, wordcloud_image_path, stopwords)
 st.image(wordcloud_image_path, use_column_width=True)
+
+st.image(instagram_pics)
 
 

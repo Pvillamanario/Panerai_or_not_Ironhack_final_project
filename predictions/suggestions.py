@@ -10,7 +10,6 @@ from scipy.spatial import distance
 import matplotlib.pyplot as plt
 import pickle
 
-IMG_to_predict = '../data/imgs/test_watches/panerai/Luminor1713.jpeg'
 closest_watches = []
 
 
@@ -62,26 +61,17 @@ def update_features(images):
     with open('../data/WF_features.pickle', 'wb') as f:
         pickle.dump(features, f)
 
-
-# img, x = load_image(IMG_to_predict)
-# print("data type: ", x.dtype)
-# plt.imshow(img)
-# plt.show()
-#
-# img, x = load_image(IMG_to_predict)
-# feat = feat_extractor.predict(x)
-# plt.figure(figsize=(16,4))
-# plt.plot(feat[0])
-# plt.show()
+    print('Feature list updated')
 
 
 def check_models_on_sale():
+    # Creates a list with all the images of watches on sale images
     images_path = '../data/imgs/WF_panerai'
     image_extensions = ['.jpg', '.png', '.jpeg']
     images = [os.path.join(dp, f) for dp, dn, filenames in os.walk(images_path) for f in filenames if os.path.splitext(f)[1].lower() in image_extensions]
-    with open('./data/WF_images.pickle', 'wb') as f:
+    with open('../data/WF_images.pickle', 'wb') as f:
         pickle.dump(images, f)
-    print(f'Comparing to {len(images)} on sale.')
+    print(f'Retrieving {len(images)} on sale.')
 
     return images
 
@@ -126,4 +116,26 @@ def make_suggestion(model, IMG_to_predict):
     plt.show()
 
     return closest_watches
+
+
+def pca_reduction(features):
+    features = np.array(features)
+    pca = PCA(n_components=250)
+    pca.fit(features)
+    pca_features = pca.transform(features)
+
+    return pca_features, pca
+
+
+def update_feature_list():
+    images = check_models_on_sale()
+    model = load_feature_model('../models/VGG19_ft_ext.h5')
+    feat_extractor = Model(inputs=model.input, outputs=model.get_layer("fc2").output)
+    print('feat extraction')
+    update_features(images)
+
+    print('WF_features updated')
+
+
+
 
