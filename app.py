@@ -1,8 +1,9 @@
 import streamlit as st
 from PIL import Image
 import webbrowser
-from modules import functions as fc
 from modules import models_functions as mf
+from modules import watch_features as wf
+from modules import instagram_utils as iu
 
 
 # pan_or_no model load
@@ -16,7 +17,7 @@ watch_features_path = './data/WF_panerai_features.csv'
 wordcloud_image_path = './data/wordcloud.jpg'
 sale_link = 'www.watchfinder.co.uk'
 # Corpus images
-header_img = './data/st_imgs/1325313.jpeg'
+header_img = './data/st_imgs/header_app.jpeg'
 panerai_logo = './data/st_imgs/logo_panerai.png'
 panerai_logo_final = './data/st_imgs/logo.jpeg'
 not_panerai = './data/st_imgs/not_panerai.png'
@@ -41,7 +42,7 @@ def suggestions(uploaded_file, model, image_list, feature_list):
 
 @st.cache(persist=True)
 def process_watch_list(closest_watches):
-    return fc.process_watch_list_df(closest_watches)
+    return wf.process_watch_list_df(closest_watches)
 
 
 @st.cache(persist=True)
@@ -151,7 +152,7 @@ else:
     selected_id = pics[pic][23:29]
 
     # Load dataframe with the watch features
-    watch_info, tag, sale_link = fc.load_watch_features(watch_features_path, selected_id)
+    watch_info, tag, sale_link = wf.load_watch_features(watch_features_path, selected_id)
     st.table(watch_info)
     st.write('')
     st.write('')
@@ -167,32 +168,32 @@ else:
     # print(tag_1, tag_2)
 
     # Get comments, number of posts and pic links from Instagram
-    comments, n_post, instagram_pics = fc.get_instagram_post(tag)
+    comments, n_post, instagram_pics = iu.get_instagram_post(tag)
     print(n_post)
 
     # Get used hashtags and process them
-    hashtags = fc.get_hastags(comments)
-    hashtags_words = fc.proccess_text(hashtags)
+    hashtags = iu.get_hastags(comments)
+    hashtags_words = iu.proccess_text(hashtags)
 
     if st.button(f"Let's have a look to Instagram about  {tag}"):
 
         # Creates a hashtag wordcloud
         st.write('')
         st.markdown('> **Hashtag wordcloud**')
-        wordcloud_image = fc.get_wordcloud(hashtags_words, wordcloud_image_path)
+        wordcloud_image = iu.get_wordcloud(hashtags_words, wordcloud_image_path)
         st.image(wordcloud_image_path, use_column_width=True)
         st.write('')
         st.write('')
 
         # Hashtag analysis. Shows 20 most used.
         st.markdown('> **Most used hashtags**')
-        st.bar_chart(fc.hashtag_analysis(hashtags))
+        st.bar_chart(iu.hashtag_analysis(hashtags))
         st.write('')
         st.write('')
 
         # Comments sentiment analysis
-        clean_comments = fc.clean_comments(comments)
-        top_5_comments = fc.comments_analysis(clean_comments)
+        clean_comments = iu.clean_comments(comments)
+        top_5_comments = iu.comments_analysis(clean_comments)
 
         # Showing top 5 positive comments. negative ones usually only contents hashtags
         st.markdown('> **Top 5 positive comments**')

@@ -60,7 +60,7 @@ prediction is positive, get the 6 most similar watches on sale. Selecting any of
 scraping and displays all the info.
 
 
-![Image](data/st_imgs/middlel_image_readme.jpg)
+![Image](data/st_imgs/middle_image_readme.png)
 
 ## Setting up the app
 
