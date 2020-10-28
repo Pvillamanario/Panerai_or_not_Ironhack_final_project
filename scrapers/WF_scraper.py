@@ -7,6 +7,11 @@ import urllib.request
 import os
 import shutil
 
+"""
+This scripts updates the info about Panerai watches being selled on Watchfinder. It fetches all the watch 
+info and images.
+"""
+
 # Links list path
 df_links_path = '../data/wfinder_panerai_links.csv'
 
@@ -151,8 +156,9 @@ def info_and_imgs_panerai_on_sale():
         df_features.to_csv('../data/WF_panerai_features.csv')
 
 
-# Updating watches on sale, features and images
-
+"""
+Updating watches on sale, features and images
+"""
 # get_links_panerai_on_sale()
 # info_and_imgs_panerai_on_sale()
 # print(df_features)
