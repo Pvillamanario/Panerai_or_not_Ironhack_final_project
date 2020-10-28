@@ -4,6 +4,7 @@ data/imgs/test_watches
 data/test
 models/VGG19_ft_ext.h5
 __trash__
+/__trash__/
 
 
 # Byte-compiled / optimized / DLL files
@@ -114,3 +115,4 @@ venv.bak/
 # OS stuff:
 .DS_Store
 .idea
+/__trash__/
