@@ -1,5 +1,5 @@
 ![Image](data/st_imgs/panerai_readme_header.png)
-#**Show us your Panerai Watch!**
+# **Show us your Panerai Watch!**
 
 Welcome to this MVP created as final project at Ironhack Data Analysis course 2020.
 
