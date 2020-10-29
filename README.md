@@ -66,9 +66,13 @@ scraping and displays all the info.
 
 > Optional
 - You can use C24_scraper to create a new dataset (this trained model is included in the repository, so itsn't necesary)
+
 - If you want to update the watches on sale in Watchfinder, feel free to use WF_scraper included.
+
 - Since VGG19 model is a very big file to be uploaded to GitHub, you can dowload it using the function *get_vgg19*, 
 included in models_functions file.
+- Also, you can execute get_VGG19.py sccript at models folder, wich will dowload the model to its folder. 
+`python ./models/get_VGG19.py`
 
 &nbsp;
 

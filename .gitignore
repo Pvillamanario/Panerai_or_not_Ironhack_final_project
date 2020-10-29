@@ -5,6 +5,7 @@ data/test
 models/VGG19_ft_ext.h5
 .__trash__
 .__trash__/*
+./data/wordcloud.jpg
 
 
 # Byte-compiled / optimized / DLL files

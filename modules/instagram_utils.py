@@ -113,6 +113,10 @@ def comments_analysis(clean_comments):
         df_comments = df_comments.append(txt, ignore_index=True)
 
     df_comments.sort_values('score', inplace=True)
-    top_5_comments = df_comments.nlargest(5, 'score')
 
-    return top_5_comments
+    if len(clean_comments) < 5:
+        top_comments = df_comments
+    else:
+        top_comments = df_comments.nlargest(5, 'score')
+
+    return top_comments

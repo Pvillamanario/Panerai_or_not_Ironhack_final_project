@@ -1,6 +1,6 @@
 import numpy as np
 from PIL import Image
-from __trash__ import suggestions as sug
+from sklearn.decomposition import PCA
 from tensorflow.keras.models import Model
 from skimage import transform
 from scipy.spatial import distance
@@ -39,6 +39,16 @@ def pan_prediction(uploaded_file, model):
     return result
 
 
+# PCA dimensions reduction
+def pca_reduction(features):
+    features = np.array(features)
+    pca = PCA(n_components=250)
+    pca.fit(features)
+    pca_features = pca.transform(features)
+
+    return pca_features, pca
+
+
 # Given a Panerai image, returns 6 similar watches.
 def model_suggestion(uploaded_file, model, image_list, feature_list):
 
@@ -60,7 +70,7 @@ def model_suggestion(uploaded_file, model, image_list, feature_list):
     # st.write('Looking for similar watches')
 
     # Feature PCA reduction
-    pca_features, pca = sug.pca_reduction(features)
+    pca_features, pca = pca_reduction(features)
 
     # Feature extraction
     new_features = feat_extractor.predict(x)

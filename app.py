@@ -163,10 +163,6 @@ else:
 
     # Before buttons so it executes while checking table on screen
 
-    # Get hashtags to be searched on Instagram. tag_1 = PAM; tag_2 = model
-    # tag_1, tag_2 = fc.get_tags(features_df, selected_filter)
-    # print(tag_1, tag_2)
-
     # Get comments, number of posts and pic links from Instagram
     comments, n_post, instagram_pics = iu.get_instagram_post(tag)
     print(n_post)
@@ -193,13 +189,13 @@ else:
 
         # Comments sentiment analysis
         clean_comments = iu.clean_comments(comments)
-        top_5_comments = iu.comments_analysis(clean_comments)
+        top_comments = iu.comments_analysis(clean_comments)
 
-        # Showing top 5 positive comments. negative ones usually only contents hashtags
+        # Showing top positive comments. negative ones usually only contents hashtags
         st.markdown('> **Top 5 positive comments**')
-        for i in range(0, 5):
-            st.write(top_5_comments.iloc[i]['comment'])
-            st.write(top_5_comments.iloc[i]['score'])
+        for i in range(0, len(top_comments)):
+            st.write(top_comments.iloc[i]['comment'])
+            st.write(top_comments.iloc[i]['score'])
         st.write('')
         st.write('')
 
