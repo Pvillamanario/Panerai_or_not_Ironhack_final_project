@@ -64,7 +64,7 @@ scraping and displays all the info.
 
 ## Setting up the app
 
-> Optional
+> **Optional**
 - You can use C24_scraper to create a new dataset (this trained model is included in the repository, so itsn't necesary)
 
 - If you want to update the watches on sale in Watchfinder, feel free to use WF_scraper included.
@@ -76,12 +76,12 @@ included in models_functions file.
 
 &nbsp;
 
-> Running the app
+> **Running the app**
 - `streamlit run app.py` will launch the app on the browser.
 
 &nbsp;
 
-> Have fun!!
+> **Have fun!!**
 - Try with differents pictures, angles, brands, etc!
 
 - Please, don't hesitate to contact me with any issue, suggestion, bugs and so!
