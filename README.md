@@ -22,7 +22,8 @@ This projects is intended to cover almost all the issues and tech we have studie
 - Scraps [Chrono24](https://www.chrono24.com) by model, brand, etc  to get enough amount of labeled images.
     - 8184 images not Panerai vs 7731 Panerai images for further trainning.
     
-- Using a transfer learning, starting with InceptionV3 convolutional neural network architecture, achieving god scores 
+- Using a transfer learning, starting with InceptionV3 convolutional neural network architecture, achieving good scores 
+in image classification 
 after trainning: 
     **loss: 0.0937 - accuracy: 0.9785** 
     
@@ -32,13 +33,15 @@ after trainning:
 
 > **Stage 2.- If the watch image is confirmed as a Panerai watch, make some suggestions based on aesthetic aspects.**
 
-- Using as dataset the images fetched from Watchfinder (it is, watches that are on sale).
+- Using as dataset the images fetched from Watchfinder (this is, watches that are on sale).
 
 - Taking a VGG19 cnn and freezing the last layer, we can perform a feature extraction from each image on sale.
 This results in a unique vector than represents the image and that can be simplified applying PCA.
 
 - Passing a new image through our feature extractor and PCA reduction provides a new vector, which most similars ones 
 can be found through cosine distance, resulting in a group with most similar preprocessed images of watches on sale.
+
+- You can find all info about this model on the notebook attached.
 
 &nbsp;
 
