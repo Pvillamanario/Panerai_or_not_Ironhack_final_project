@@ -20,7 +20,7 @@ sale_link = 'www.watchfinder.co.uk'
 header_img = './data/st_imgs/header_app.jpeg'
 panerai_logo = './data/st_imgs/logo_panerai.png'
 panerai_logo_final = './data/st_imgs/logo.jpeg'
-not_panerai = './data/st_imgs/not_panerai.png'
+not_panerai = './data/st_imgs/not_panerai.jpg'
 # Panerai
 Panerai = False
 
@@ -115,15 +115,9 @@ else:
     st.write('')
     st.write("> **Let's check for some similar watches on sale...**")
 
-    # if st.button('Show me!'):
-
     model = load_suggestions_model(VGG19_path) # Cache
 
     closest_watches = suggestions(uploaded_file, model, image_list, feature_list)
-    # del model
-    # gc.collect()
-
-    # st.write(closest_watches)
 
     selected_watches = process_watch_list(closest_watches) # Cache
 
