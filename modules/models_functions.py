@@ -7,6 +7,7 @@ from scipy.spatial import distance
 import pickle
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
 import tensorflow as tf
+import os
 
 
 # Loads InceptionV3 model (Panerai or not).
@@ -15,10 +16,14 @@ def model_pan_load(path):
     return tf.keras.models.load_model(path)
 
 
-# Dowloads VGG19 model.
-def get_vgg19():
-    model = tf.keras.applications.VGG19(weights='imagenet', include_top=True)
-    model.save('../data/models/VGG19_ft_ext.h5')
+# Checks if VGG19 is downloaded; if not, dowload it:
+def check_vgg19(path):
+    if os.path.isfile(path):
+        print('VGG19 already dowloaded')
+        pass
+    else:
+        model = tf.keras.applications.VGG19(weights='imagenet', include_top=True)
+        model.save(path)
 
 
 # If VGG19 model exists, loads it.

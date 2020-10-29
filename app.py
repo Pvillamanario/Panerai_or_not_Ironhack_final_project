@@ -25,6 +25,7 @@ not_panerai = './data/st_imgs/not_panerai.jpg'
 Panerai = False
 
 
+
 @st.cache()
 def load_pan_model(model_pan_path):
     return mf.model_pan_load(model_pan_path)
@@ -62,6 +63,9 @@ def choosen_pics(selected_watches):
 
     return pic_list, models
 
+
+# Checks if VGG19 is dowloaded; if not, download it:
+mf.check_vgg19(VGG19_path)
 
 # Streamlit header
 st.image(header_img, use_column_width=True)

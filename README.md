@@ -27,7 +27,8 @@ in image classification
 after trainning: 
     **loss: 0.0937 - accuracy: 0.9785** 
     
-- You can find all info about this model on the notebook attached.
+- You can find all info about this model on the notebook attached or in 
+[Kaggle](https://www.kaggle.com/pablovillamanario/notebook-panerai-or-not-inceptionv3).
 
 &nbsp;
 
@@ -41,7 +42,8 @@ This results in a unique vector than represents the image and that can be simpli
 - Passing a new image through our feature extractor and PCA reduction provides a new vector, which most similars ones 
 can be found through cosine distance, resulting in a group with most similar preprocessed images of watches on sale.
 
-- You can find all info about this model on the notebook attached.
+- You can find all info about this model on the notebook attached or in 
+[Kaggle](https://www.kaggle.com/pablovillamanario/notebook-def-image-retrieval).
 
 &nbsp;
 
@@ -72,10 +74,8 @@ scraping and displays all the info.
 
 - If you want to update the watches on sale in Watchfinder, feel free to use WF_scraper included.
 
-- Since VGG19 model is a very big file to be uploaded to GitHub, you can dowload it using the function *get_vgg19*, 
-included in models_functions file.
-- Also, you can execute get_VGG19.py sccript at models folder, wich will dowload the model to its folder. 
-`python ./models/get_VGG19.py`
+- Since VGG19 model is a big file to be uploaded to GitHub, it will be checked when executing the app. If it doesn't 
+exists, it'll be downloaded.
 
 &nbsp;
 
