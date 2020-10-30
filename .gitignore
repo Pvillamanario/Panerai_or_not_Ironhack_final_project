@@ -5,6 +5,7 @@ data/test
 models/VGG19_ft_ext.h5
 __trash__
 ./data/wordcloud.jpg
+pan_or_not.pem
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
