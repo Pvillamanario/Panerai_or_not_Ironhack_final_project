@@ -1,7 +1,6 @@
 import pandas as pd
 import re
-import json
-import urllib.request as urllib2
+import requests
 from wordcloud import WordCloud, STOPWORDS
 from textblob import TextBlob
 
@@ -12,7 +11,8 @@ def get_instagram_post(tag):
     """
 
     instagram_url = f'https://www.instagram.com/explore/tags/{tag}/?__a=1'
-    data = json.load(urllib2.urlopen(instagram_url))
+    response = requests.get(instagram_url)
+    data = response.json()
 
     n_post = len(data['graphql']['hashtag']['edge_hashtag_to_media']['edges'])
 

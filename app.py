@@ -37,23 +37,23 @@ def load_suggestions_model(VGG19_path):
 
 
 @st.cache(persist=True)
-def suggestions(uploaded_file, model, image_list, feature_list):
+def suggestions(uploaded_file, model, image_list, feature_list, suppress_st_warning=True):
     return mf.model_suggestion(uploaded_file, model, image_list, feature_list)
 
 
-@st.cache(persist=True)
+@st.cache(persist=True, suppress_st_warning=True)
 def process_watch_list(closest_watches):
     return wf.process_watch_list_df(closest_watches)
 
 
-@st.cache(persist=True)
+@st.cache(persist=True, suppress_st_warning=True)
 def get_pic_dic(selected_watches):
     # Creates a dic model:pic_path
     pics = selected_watches.set_index('model').to_dict()['pic_path']
     return pics
 
 
-@st.cache(persist=True)
+@st.cache(persist=True, suppress_st_warning=True)
 def choosen_pics(selected_watches):
     pic_list = selected_watches['pic_path'].tolist()
     models = selected_watches['model'].tolist()
@@ -210,3 +210,4 @@ if st.button('Take me to the shop.... right now!!'):
 
 
 st.image(panerai_logo_final, use_column_width=True)
+st.stop()
