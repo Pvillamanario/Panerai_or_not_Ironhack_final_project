@@ -94,7 +94,11 @@ It will be much appreciated  ^_^
 
 &nbsp;
 
-![Image](data/st_imgs/app_1.png)![Image](data/st_imgs/app_2.png)![Image](data/st_imgs/app_3.png)![Image](data/st_imgs/app_4.png)
+![Image](data/st_imgs/app_1.png)![Image](data/st_imgs/app_2.png)
+
+&nbsp;
+
+![Image](data/st_imgs/app_3.png)![Image](data/st_imgs/app_4.png)
 
 ## Tech-stack:
 - requests
