@@ -36,6 +36,7 @@ def load_feature_model(path):
 def pan_prediction(uploaded_file, model):
 
     img = Image.open(uploaded_file)
+    print('image loaded')
     img = np.array(img).astype('float32')
     img = transform.resize(img, (180, 180, 3))
     img = np.expand_dims(img, axis=0)
