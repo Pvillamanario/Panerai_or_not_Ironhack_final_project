@@ -114,6 +114,8 @@ It will be much appreciated  ^_^
 
 ## Don't forget to visit [Panerai](https://www.panerai.com) ;)
 
+![Image](data/st_imgs/app_show_not_pan.gif)
+
 ## To be done:
 - Guess what to do when there isn't any content in Instagram.
 - Deploy the app (maybe Heroku or similar).
